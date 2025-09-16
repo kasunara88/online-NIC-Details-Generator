@@ -62,8 +62,7 @@ function NICForm() {
         return;
       }
 
-      const details = NIC.getInfoFromNIC(nic);
-      console.log(details);
+      const details = NIC.getInfoFromNIC(nic.trim());
 
       if (!details || !details.dateOfBirth) {
         throw new Error("Unable to extract valid information from NIC");
@@ -72,6 +71,18 @@ function NICForm() {
       setNicDetails(details);
     } catch (err) {
       console.error("NIC processing error:", err);
+
+      if (err.message.includes("Invalid")) {
+        setError("Invalid NIC format. Please check and try again.");
+      } else if (err.message.includes("extract")) {
+        setError("Unable to extract information from this NIC number.");
+      } else {
+        setError(
+          "Something went wrong. Please verify your NIC number and try again."
+        );
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -154,7 +165,7 @@ function NICForm() {
               }
               placeholder="123456789V or 123456789012"
               disabled={isLoading}
-              slotProps={{
+              inputProps={{
                 maxLength: 12,
                 style: { textTransform: "uppercase" },
               }}
