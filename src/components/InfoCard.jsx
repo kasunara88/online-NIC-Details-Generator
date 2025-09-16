@@ -6,7 +6,7 @@ const InfoCard = ({ label, value }) => {
       elevation={0}
       sx={{
         backgroundColor: "#F3F6F4",
-        padding: "12px 16px",
+        padding: "12px 10px",
         borderRadius: "8px",
       }}
     >
